@@ -4,7 +4,7 @@ import React from 'react';
 const HomePage = () => {
 	return (
 		<div>
-			<Typography>Home Page</Typography>
+			<Typography color='primary'>Home Page</Typography>
 		</div>
 	);
 };
