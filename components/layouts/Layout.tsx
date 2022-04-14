@@ -1,6 +1,6 @@
-import { Box } from '@mui/material';
 import Head from 'next/head';
-import { Navbar } from '../ui';
+import { Box } from '@mui/material';
+import { Navbar, Sidebar } from '../ui';
 
 export const Layout = ({ title = 'Open JIRA', children }: LayoutProps) => {
 	return (
@@ -10,7 +10,7 @@ export const Layout = ({ title = 'Open JIRA', children }: LayoutProps) => {
 			</Head>
 
 			<Navbar />
-			{/* Sidebar */}
+			<Sidebar />
 
 			<Box sx={{ padding: '10px 20px' }}>{children}</Box>
 		</Box>
