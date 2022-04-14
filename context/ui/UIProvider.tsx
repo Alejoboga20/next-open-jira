@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
-import { UIContext, uiReducer } from './';
+import { UiContext } from './UiContext';
+import { uiReducer } from './uiReducer';
 
 export interface UIState {
 	sideMenuOpen: boolean;
@@ -8,10 +9,11 @@ export interface UIState {
 const UI_INITIAL_STATE: UIState = {
 	sideMenuOpen: false,
 };
-export const UIProvider = ({ children }: UIProviderProps) => {
+
+export const UiProvider = ({ children }: UIProviderProps) => {
 	const [state, dispatch] = useReducer(uiReducer, UI_INITIAL_STATE);
 
-	return <UIContext.Provider value={{ sideMenuOpen: false }}>{children}</UIContext.Provider>;
+	return <UiContext.Provider value={{ sideMenuOpen: false }}>{children}</UiContext.Provider>;
 };
 interface UIProviderProps {
 	children: JSX.Element | JSX.Element[];
