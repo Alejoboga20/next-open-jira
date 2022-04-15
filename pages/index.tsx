@@ -1,11 +1,32 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import { NextPage } from 'next';
+import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { Layout } from '../components/layouts';
 
-const HomePage = () => {
+const HomePage: NextPage = () => {
 	return (
-		<Layout>
-			<Typography color='primary'>Home Page</Typography>
+		<Layout title='Open JIRA'>
+			<Grid container spacing={2}>
+				<Grid item xs={12} sm={4}>
+					<Card sx={{ height: 'calc(100vh - 100px)' }}>
+						<CardHeader title='Pending' />
+
+						<CardContent>
+							{/* Add New Entry */}
+							{/* List Entries */}
+						</CardContent>
+					</Card>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Card sx={{ height: 'calc(100vh - 100px)' }}>
+						<CardHeader title='In Progress' />
+					</Card>
+				</Grid>
+				<Grid item xs={12} sm={4}>
+					<Card sx={{ height: 'calc(100vh - 100px)' }}>
+						<CardHeader title='Done' />
+					</Card>
+				</Grid>
+			</Grid>
 		</Layout>
 	);
 };
