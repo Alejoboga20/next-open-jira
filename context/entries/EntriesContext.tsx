@@ -1,7 +1,8 @@
 import { createContext } from 'react';
+import { Entry } from '../../interfaces';
 
 export interface EntriesContextProps {
-	entries: any[] /* TODO: define type */;
+	entries: Entry[];
 }
 
 export const EntriesContext = createContext({} as EntriesContextProps);
