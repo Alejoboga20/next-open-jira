@@ -16,7 +16,7 @@ export const EntryList = ({ status }: EntryListProps) => {
 			<Paper
 				sx={{
 					height: 'calc(100vh - 180px)',
-					/* overflow: 'scroll', */
+					overflowY: 'scroll',
 					backgroundColor: 'transparent',
 					padding: '1px 5px',
 				}}

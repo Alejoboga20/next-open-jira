@@ -33,7 +33,20 @@ const Entries_INITIAL_STATE: EntriesState = {
 export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 	const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
 
-	return <EntriesContext.Provider value={{ ...state }}>{children}</EntriesContext.Provider>;
+	const addNewEntry = (description: string) => {
+		const newEntry: Entry = {
+			_id: uuidv4(),
+			createdAt: Date.now(),
+			description,
+			status: 'Pending',
+		};
+
+		dispatch({ type: '[Entries] - Add Entry', payload: newEntry });
+	};
+
+	return (
+		<EntriesContext.Provider value={{ ...state, addNewEntry }}>{children}</EntriesContext.Provider>
+	);
 };
 interface EntriesProviderProps {
 	children: JSX.Element | JSX.Element[];
