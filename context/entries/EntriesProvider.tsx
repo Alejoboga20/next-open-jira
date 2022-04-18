@@ -44,8 +44,14 @@ export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 		dispatch({ type: '[Entries] - Add Entry', payload: newEntry });
 	};
 
+	const updateEntry = (entry: Entry) => {
+		dispatch({ type: '[Entries] - Update Entry', payload: entry });
+	};
+
 	return (
-		<EntriesContext.Provider value={{ ...state, addNewEntry }}>{children}</EntriesContext.Provider>
+		<EntriesContext.Provider value={{ ...state, addNewEntry, updateEntry }}>
+			{children}
+		</EntriesContext.Provider>
 	);
 };
 interface EntriesProviderProps {
