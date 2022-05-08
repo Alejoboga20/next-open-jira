@@ -19,13 +19,13 @@ export const connect = async () => {
 		await disconnect();
 	}
 
-	await mongoose.connect('env variable for db');
+	await mongoose.connect(process.env.MONGO_URL || '');
 	mongooConnection.isConnected = 1;
-	console.log('Connected to MongoDB: ');
+	console.log('Connected to MongoDB: ', process.env.MONGO_URL);
 };
 
 export const disconnect = async () => {
-	if (mongooConnection.isConnected !== 0) return;
+	if (mongooConnection.isConnected === 0) return;
 	await mongoose.disconnect();
 
 	console.log('Disconnected to MongoDB: ');

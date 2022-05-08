@@ -11,3 +11,13 @@ MongoDB local url:
 ```
 mongodb://localhost:27017/entriesdb
 ```
+
+Then, to run Application:
+
+```
+yarn dev
+```
+
+## Config environment variables
+
+Rename file .env.example to .env
