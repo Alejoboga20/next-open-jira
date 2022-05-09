@@ -1,8 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import { db } from '../../../database';
-import { Entry } from '../../../models';
-import { IEntry } from '../../../models/Entry';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../../database';
+import { Entry } from '../../../../models';
+import { IEntry } from '../../../../models/Entry';
 
 type Data =
 	| {
