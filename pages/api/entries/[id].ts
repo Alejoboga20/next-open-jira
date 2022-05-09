@@ -18,6 +18,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 	}
 
 	switch (req.method) {
+		case 'GET':
+			return getEntry(req, res);
 		case 'PUT':
 			return updateEntry(req, res);
 
@@ -25,6 +27,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 			return res.status(400).json({ message: 'Bad Request - Invalid Method' });
 	}
 }
+
+const getEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+	const { id } = req.query;
+
+	await db.connect();
+
+	const entry = await Entry.findById(id);
+
+	await db.disconnect();
+
+	if (!entry) {
+		return res.status(400).json({ message: 'No entry with such ID' });
+	}
+
+	res.status(200).json(entry);
+};
 
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	const { id } = req.query;
