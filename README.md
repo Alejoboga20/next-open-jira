@@ -21,3 +21,10 @@ yarn dev
 ## Config environment variables
 
 Rename file .env.example to .env
+
+## Fill DataBase with test data
+
+```
+GET
+http://localhost:3000/api/seed
+```

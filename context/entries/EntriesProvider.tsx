@@ -9,26 +9,7 @@ export interface EntriesState {
 }
 
 const Entries_INITIAL_STATE: EntriesState = {
-	entries: [
-		{
-			_id: uuidv4(),
-			description: 'Pending: Lorem ipson dolor',
-			status: 'Pending',
-			createdAt: Date.now(),
-		},
-		{
-			_id: uuidv4(),
-			description: 'In Progress: Lorem ipson dolor daldea staweadasda',
-			status: 'In Progress',
-			createdAt: Date.now() - 10000,
-		},
-		{
-			_id: uuidv4(),
-			description: 'Done: Lorem isdpsonadasd adwaea dasdqaqwea dolor',
-			status: 'Done',
-			createdAt: Date.now() - 12312312312,
-		},
-	],
+	entries: [],
 };
 export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 	const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
