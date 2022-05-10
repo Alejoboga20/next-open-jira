@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 import { DeleteOutlined, SaveOutlined } from '@mui/icons-material';
 import {
@@ -22,10 +22,13 @@ import { Layout } from '../../components/layouts';
 import { Status } from '../../interfaces';
 import { dbEntries } from '../../database';
 import { IEntry } from '../../models/Entry';
+import { EntriesContext } from '../../context/entries/EntriesContext';
+import { Entry } from '../../interfaces/entry';
 
 const validStatus: Status[] = ['Done', 'In Progress', 'Pending'];
 
 const EntryPage = ({ entry }: EntryPageProps) => {
+	const { updateEntry } = useContext(EntriesContext);
 	const [inputValue, setInputValue] = useState(entry.description);
 	const [status, setStatus] = useState<Status>(entry.status);
 	const [touched, setTouched] = useState(false);
@@ -41,7 +44,15 @@ const EntryPage = ({ entry }: EntryPageProps) => {
 	};
 
 	const onSave = () => {
-		console.log({ inputValue, status });
+		if (inputValue.trim().length === 0) return;
+
+		const updatedEntry: Entry = {
+			...entry,
+			description: inputValue,
+			status,
+		};
+
+		updateEntry(updatedEntry, true);
 	};
 
 	return (
