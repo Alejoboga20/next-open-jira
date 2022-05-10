@@ -15,6 +15,7 @@ mongodb://localhost:27017/entriesdb
 Then, to run Application:
 
 ```
+yarn install
 yarn dev
 ```
 
