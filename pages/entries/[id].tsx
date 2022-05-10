@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { DeleteOutlined, SaveOutlined } from '@mui/icons-material';
 import {
 	Button,
@@ -27,6 +27,8 @@ const EntryPage = () => {
 	const [status, setStatus] = useState<Status>('Pending');
 	const [touched, setTouched] = useState(false);
 
+	const isNotValid = useMemo(() => inputValue.length <= 0 && touched, [inputValue, touched]);
+
 	const onInputValueChanged = (event: ChangeEvent<HTMLInputElement>) => {
 		setInputValue(event.target.value);
 	};
@@ -52,6 +54,9 @@ const EntryPage = () => {
 								label='New Entry'
 								value={inputValue}
 								onChange={onInputValueChanged}
+								onBlur={() => setTouched(true)}
+								helperText={isNotValid && 'Enter a Value'}
+								error={isNotValid}
 								placeholder='New Entry'
 								fullWidth
 								autoFocus
@@ -74,7 +79,13 @@ const EntryPage = () => {
 						</CardContent>
 
 						<CardActions>
-							<Button startIcon={<SaveOutlined />} variant='contained' onClick={onSave} fullWidth>
+							<Button
+								startIcon={<SaveOutlined />}
+								variant='contained'
+								onClick={onSave}
+								disabled={inputValue.length <= 0}
+								fullWidth
+							>
 								Save
 							</Button>
 						</CardActions>
