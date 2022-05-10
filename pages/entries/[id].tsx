@@ -17,16 +17,17 @@ import {
 	RadioGroup,
 	TextField,
 } from '@mui/material';
-import { isValidObjectId } from 'mongoose';
 
 import { Layout } from '../../components/layouts';
 import { Status } from '../../interfaces';
+import { dbEntries } from '../../database';
+import { IEntry } from '../../models/Entry';
 
 const validStatus: Status[] = ['Done', 'In Progress', 'Pending'];
 
-const EntryPage = ({ id }: EntryPageProps) => {
-	const [inputValue, setInputValue] = useState('');
-	const [status, setStatus] = useState<Status>('Pending');
+const EntryPage = ({ entry }: EntryPageProps) => {
+	const [inputValue, setInputValue] = useState(entry.description);
+	const [status, setStatus] = useState<Status>(entry.status);
 	const [touched, setTouched] = useState(false);
 
 	const isNotValid = useMemo(() => inputValue.length <= 0 && touched, [inputValue, touched]);
@@ -44,11 +45,11 @@ const EntryPage = ({ id }: EntryPageProps) => {
 	};
 
 	return (
-		<Layout title='...'>
+		<Layout title={inputValue.substring(0, 20) + '...'}>
 			<Grid container justifyContent='center' sx={{ marginTop: 2 }}>
 				<Grid item xs={12} sm={8} md={6}>
 					<Card>
-						<CardHeader title={`Entry: ${inputValue}`} subheader={`Created at: ....`} />
+						<CardHeader title='Entry' subheader={`Created at: ....`} />
 
 						<CardContent>
 							<TextField
@@ -110,14 +111,16 @@ const EntryPage = ({ id }: EntryPageProps) => {
 };
 
 interface EntryPageProps {
-	id: string;
+	entry: IEntry;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	const { id } = params as { id: string };
 
+	const entry = await dbEntries.getEntryById(id);
+
 	/* To avoid rendering a page when ID does not exist */
-	if (!isValidObjectId(id)) {
+	if (!entry) {
 		return {
 			redirect: {
 				destination: '/',
@@ -128,7 +131,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 	return {
 		props: {
-			id,
+			entry,
 		},
 	};
 };
