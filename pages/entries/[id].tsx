@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from 'react';
 import { DeleteOutlined, SaveOutlined } from '@mui/icons-material';
 import {
 	Button,
@@ -15,32 +16,51 @@ import {
 	RadioGroup,
 	TextField,
 } from '@mui/material';
+
 import { Layout } from '../../components/layouts';
 import { Status } from '../../interfaces';
 
 const validStatus: Status[] = ['Done', 'In Progress', 'Pending'];
 
 const EntryPage = () => {
+	const [inputValue, setInputValue] = useState('');
+	const [status, setStatus] = useState<Status>('Pending');
+	const [touched, setTouched] = useState(false);
+
+	const onInputValueChanged = (event: ChangeEvent<HTMLInputElement>) => {
+		setInputValue(event.target.value);
+	};
+
+	const onStatusChanged = (event: ChangeEvent<HTMLInputElement>) => {
+		setStatus(event.target.value as Status);
+	};
+
+	const onSave = () => {
+		console.log({ inputValue, status });
+	};
+
 	return (
 		<Layout title='...'>
 			<Grid container justifyContent='center' sx={{ marginTop: 2 }}>
 				<Grid item xs={12} sm={8} md={6}>
 					<Card>
-						<CardHeader title='Entry' subheader={`Created at: ....`} />
+						<CardHeader title={`Entry: ${inputValue}`} subheader={`Created at: ....`} />
 
 						<CardContent>
 							<TextField
 								sx={{ marginTop: 2, marginBottom: 1 }}
-								fullWidth
+								label='New Entry'
+								value={inputValue}
+								onChange={onInputValueChanged}
 								placeholder='New Entry'
+								fullWidth
 								autoFocus
 								multiline
-								label='New Entry'
 							/>
 
 							<FormControl>
 								<FormLabel>Status: </FormLabel>
-								<RadioGroup row>
+								<RadioGroup row value={status} onChange={onStatusChanged}>
 									{validStatus.map((option) => (
 										<FormControlLabel
 											key={option}
@@ -54,7 +74,7 @@ const EntryPage = () => {
 						</CardContent>
 
 						<CardActions>
-							<Button startIcon={<SaveOutlined />} variant='contained' fullWidth>
+							<Button startIcon={<SaveOutlined />} variant='contained' onClick={onSave} fullWidth>
 								Save
 							</Button>
 						</CardActions>
