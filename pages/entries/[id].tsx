@@ -1,4 +1,5 @@
 import { ChangeEvent, useMemo, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import { DeleteOutlined, SaveOutlined } from '@mui/icons-material';
 import {
 	Button,
@@ -16,13 +17,14 @@ import {
 	RadioGroup,
 	TextField,
 } from '@mui/material';
+import { isValidObjectId } from 'mongoose';
 
 import { Layout } from '../../components/layouts';
 import { Status } from '../../interfaces';
 
 const validStatus: Status[] = ['Done', 'In Progress', 'Pending'];
 
-const EntryPage = () => {
+const EntryPage = ({ id }: EntryPageProps) => {
 	const [inputValue, setInputValue] = useState('');
 	const [status, setStatus] = useState<Status>('Pending');
 	const [touched, setTouched] = useState(false);
@@ -105,6 +107,30 @@ const EntryPage = () => {
 			</IconButton>
 		</Layout>
 	);
+};
+
+interface EntryPageProps {
+	id: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	const { id } = params as { id: string };
+
+	/* To avoid rendering a page when ID does not exist */
+	if (!isValidObjectId(id)) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {
+			id,
+		},
+	};
 };
 
 export default EntryPage;
