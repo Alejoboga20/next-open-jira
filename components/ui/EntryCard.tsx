@@ -3,6 +3,7 @@ import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui
 import { Entry } from '../../interfaces';
 import { UIContext } from '../../context/ui/UIContext';
 import { useRouter } from 'next/router';
+import { dateFunctions } from '../../utils';
 
 export const EntryCard = ({ entry }: EntryCardProps) => {
 	const { startDragging, endDragging } = useContext(UIContext);
@@ -35,7 +36,9 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
 				</CardContent>
 
 				<CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-					<Typography variant='body2'>Since: {entry.createdAt}</Typography>
+					<Typography variant='body2'>
+						Since: {dateFunctions.getFormatDistanceToNow(entry.createdAt)}
+					</Typography>
 				</CardActions>
 			</CardActionArea>
 		</Card>
