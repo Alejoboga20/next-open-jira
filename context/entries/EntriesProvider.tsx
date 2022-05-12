@@ -4,6 +4,7 @@ import { entriesReducer } from './entriesReducer';
 import { Entry } from '../../interfaces';
 import { entriesApi } from '../../apis';
 import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 export interface EntriesState {
 	entries: Entry[];
@@ -15,6 +16,7 @@ const Entries_INITIAL_STATE: EntriesState = {
 export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 	const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
 	const { enqueueSnackbar } = useSnackbar();
+	const router = useRouter();
 
 	const addNewEntry = async (description: string) => {
 		const { data } = await entriesApi.post<Entry>('/entries', {
@@ -51,10 +53,12 @@ export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 		await entriesApi.delete<Entry>(`/entries/${_id}`);
 
 		dispatch({ type: '[Entries] - Delete Entry', payload: _id });
+		router.push('/');
 	};
 
 	const refreshEntries = async () => {
 		const { data } = await entriesApi.get<Entry[]>('/entries');
+
 		dispatch({ type: '[Entries] - Refresh Entries', payload: data });
 	};
 
