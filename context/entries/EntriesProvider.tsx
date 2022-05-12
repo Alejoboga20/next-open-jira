@@ -47,6 +47,12 @@ export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 		}
 	};
 
+	const deleteEntry = async (_id: string) => {
+		await entriesApi.delete<Entry>(`/entries/${_id}`);
+
+		dispatch({ type: '[Entries] - Delete Entry', payload: _id });
+	};
+
 	const refreshEntries = async () => {
 		const { data } = await entriesApi.get<Entry[]>('/entries');
 		dispatch({ type: '[Entries] - Refresh Entries', payload: data });
@@ -57,7 +63,7 @@ export const EntriesProvider = ({ children }: EntriesProviderProps) => {
 	}, []);
 
 	return (
-		<EntriesContext.Provider value={{ ...state, addNewEntry, updateEntry }}>
+		<EntriesContext.Provider value={{ ...state, addNewEntry, updateEntry, deleteEntry }}>
 			{children}
 		</EntriesContext.Provider>
 	);

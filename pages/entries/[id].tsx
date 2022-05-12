@@ -29,7 +29,7 @@ import { dateFunctions } from '../../utils';
 const validStatus: Status[] = ['Done', 'In Progress', 'Pending'];
 
 const EntryPage = ({ entry }: EntryPageProps) => {
-	const { updateEntry } = useContext(EntriesContext);
+	const { updateEntry, deleteEntry } = useContext(EntriesContext);
 	const [inputValue, setInputValue] = useState(entry.description);
 	const [status, setStatus] = useState<Status>(entry.status);
 	const [touched, setTouched] = useState(false);
@@ -118,6 +118,7 @@ const EntryPage = ({ entry }: EntryPageProps) => {
 					bottom: 30,
 					backgroundColor: 'error.dark',
 				}}
+				onClick={() => deleteEntry(entry._id)}
 			>
 				<DeleteOutlined />
 			</IconButton>
