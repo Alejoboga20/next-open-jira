@@ -22,6 +22,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 			return getEntry(req, res);
 		case 'PUT':
 			return updateEntry(req, res);
+		case 'DELETE':
+			return deleteEntry(req, res);
 
 		default:
 			return res.status(400).json({ message: 'Bad Request - Invalid Method' });
@@ -67,6 +69,28 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 		await db.disconnect();
 		res.status(200).json(updatedEntry!);
+	} catch (error: any) {
+		await db.disconnect();
+		res.status(400).json({ message: error.errors.status.message });
+	}
+
+	await db.disconnect();
+};
+
+const deleteEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+	const { id } = req.query;
+
+	await db.connect();
+
+	const entryToDelete = await Entry.findById(id);
+
+	if (!entryToDelete) return res.status(400).json({ message: 'Entry not found' });
+
+	try {
+		const entryDeleted = await Entry.findByIdAndDelete(id);
+		await db.disconnect();
+
+		res.status(200).json(entryDeleted!);
 	} catch (error: any) {
 		await db.disconnect();
 		res.status(400).json({ message: error.errors.status.message });
